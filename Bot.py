@@ -1,21 +1,21 @@
 import os
-from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
+import telebot
 
-# توکن از متغیر محیطی (Env Var) گرفته میشه
-TOKEN = os.getenv("8293627914:AAHsIddC1XExdUo2_4KOacwJVj17SLQBkBw")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("سلام! 🤖 من ربات VaultX هستم. آماده‌ای برای شروع مزایده؟")
+if not BOT_TOKEN:
+    raise ValueError("No TELEGRAM_BOT_TOKEN provided. Please set it in Render Environment Variables.")
 
-def main():
-    app = Application.builder().token(TOKEN).build()
+bot = telebot.TeleBot(BOT_TOKEN)
 
-    # دستور /start
-    app.add_handler(CommandHandler("start", start))
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Welcome to VaultXOfficialBot 🚀\nThis is a test message to confirm the bot is running.")
 
-    print("ربات شروع به کار کرد ...")
-    app.run_polling()
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, f"You said: {message.text}")
 
 if __name__ == "__main__":
-    main()
+    print("Bot is running...")
+    bot.infinity_polling()
