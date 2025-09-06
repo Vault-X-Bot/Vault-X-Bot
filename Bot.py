@@ -1,7 +1,7 @@
 import os
 import telebot
 
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+BOT_TOKEN = os.getenv("8293627914:AAHsIddC1XExdUo2_4KOacwJVj17SLQBkBw")
 
 if not BOT_TOKEN:
     raise ValueError("No TELEGRAM_BOT_TOKEN provided. Please set it in Render Environment Variables.")
